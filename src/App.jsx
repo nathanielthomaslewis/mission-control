@@ -1451,6 +1451,7 @@ const AI_AGENTS = [
   { name: 'OpenHands', icon: '🤲', color: '#ec4899', cmd: 'openhands run --auto "your task here"', desc: 'Autonomous coding agent — full sandbox', status: 'installed' },
   { name: 'Aider', icon: '🛠️', color: '#14b8a6', cmd: 'aider --yes-always --message "your task here"', desc: 'AI pair programmer — git-aware edits', status: 'installed' },
   { name: 'Cline', icon: '💎', color: '#06b6d4', cmd: 'cline --auto-approve --task "your task here"', desc: 'VS Code agent — autonomous coding', status: 'installed' },
+  { name: 'JCode', icon: '🧬', color: '#ff6b6b', cmd: 'jcode run "your prompt"', desc: 'Multi-provider CLI — Claude, Gemini, Kimi, Ollama in one tool', status: 'installed' },
 ];
 
 function ShortcutsPage() {
@@ -1511,6 +1512,60 @@ function ShortcutsPage() {
           </div>
         ))}
       </div>
+
+      {/* JCODE REFERENCE */}
+      <div style={styles.sectionHeader}>JCode — Multi-Provider CLI</div>
+      <div style={{background:'rgba(255,107,107,0.06)',border:'1px solid rgba(255,107,107,0.2)',borderRadius:12,padding:16,marginBottom:12}}>
+        <div style={{fontSize:12,fontWeight:700,color:'#ff6b6b',marginBottom:10}}>🧬 Basic Usage</div>
+        <div style={{display:'flex',flexDirection:'column',gap:4}}>
+          {[
+            { cmd: 'jcode run "your prompt"', desc: 'One-shot — run a single prompt' },
+            { cmd: 'jcode', desc: 'Interactive TUI session' },
+            { cmd: 'jcode --model claude-opus-4-7', desc: 'Specific model override' },
+          ].map((c, i) => (
+            <div key={i} style={{display:'flex',alignItems:'center',gap:10,padding:'4px 0',cursor:'pointer'}} onClick={() => copyCmd(c.cmd, 200+i)}>
+              <code style={{fontFamily:"'Cascadia Code','Fira Code',monospace",fontSize:11,color:'#4ade80',background:'rgba(0,0,0,0.3)',padding:'3px 8px',borderRadius:4,whiteSpace:'nowrap'}}>{c.cmd}</code>
+              <span style={{fontSize:10,color:'#888'}}>{c.desc}</span>
+              {copied===200+i && <span style={{fontSize:9,color:'#22c55e',fontWeight:700}}>Copied!</span>}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12,marginBottom:12}}>
+        <div style={{background:'rgba(255,255,255,0.04)',borderRadius:12,border:'1px solid #2a2a2a',padding:16}}>
+          <div style={{fontSize:12,fontWeight:700,color:'#ff6b6b',marginBottom:10}}>🔑 Provider Login</div>
+          <div style={{display:'flex',flexDirection:'column',gap:6}}>
+            {[
+              { cmd: 'jcode login --provider gemini', desc: 'Google OAuth (opens browser)' },
+              { cmd: 'jcode login --provider kimi --api-key YOUR_KEY', desc: 'Kimi — key from platform.moonshot.cn' },
+            ].map((c, i) => (
+              <div key={i} style={{cursor:'pointer'}} onClick={() => copyCmd(c.cmd, 210+i)}>
+                <code style={{fontFamily:"'Cascadia Code','Fira Code',monospace",fontSize:10,color:'#4ade80',background:'rgba(0,0,0,0.3)',padding:'2px 6px',borderRadius:3,display:'block',marginBottom:2}}>{c.cmd}</code>
+                <span style={{fontSize:9,color:'#666'}}>{c.desc} {copied===210+i && <span style={{color:'#22c55e'}}>Copied!</span>}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div style={{background:'rgba(255,255,255,0.04)',borderRadius:12,border:'1px solid #2a2a2a',padding:16}}>
+          <div style={{fontSize:12,fontWeight:700,color:'#ff6b6b',marginBottom:10}}>🔄 Switch Providers</div>
+          <div style={{display:'flex',flexDirection:'column',gap:6}}>
+            {[
+              { cmd: 'jcode --provider claude run "hello"', desc: 'Anthropic Claude' },
+              { cmd: 'jcode --provider gemini run "hello"', desc: 'Google Gemini' },
+              { cmd: 'jcode --provider kimi run "hello"', desc: 'Moonshot Kimi' },
+              { cmd: 'jcode --provider-profile local-ollama run "hello"', desc: 'Local qwen2.5-coder via Ollama' },
+            ].map((c, i) => (
+              <div key={i} style={{cursor:'pointer'}} onClick={() => copyCmd(c.cmd, 220+i)}>
+                <code style={{fontFamily:"'Cascadia Code','Fira Code',monospace",fontSize:10,color:'#4ade80',background:'rgba(0,0,0,0.3)',padding:'2px 6px',borderRadius:3,display:'block',marginBottom:2}}>{c.cmd}</code>
+                <span style={{fontSize:9,color:'#666'}}>{c.desc} {copied===220+i && <span style={{color:'#22c55e'}}>Copied!</span>}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
     </div>
   );
 }
